@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @import "./font.css";
+@theme {
+  --font-display: "Vazir", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-display;
+  }
+}
+@utility center {
+  @apply flex items-center justify-center;
+}
