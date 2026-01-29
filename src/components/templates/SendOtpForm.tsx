@@ -1,4 +1,6 @@
+import { sendOtp } from "@/services/auth";
 import React from "react";
+import { toast } from "sonner";
 interface SendOtpType {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setMobile: React.Dispatch<React.SetStateAction<string>>;
@@ -7,10 +9,18 @@ interface SendOtpType {
 
 function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
   // console.log(setStep)
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (mobile.length !== 11) return;
-    setStep(2);
+    const { response, error } = await sendOtp(mobile);
+    if (response) {
+      toast.success("کد تایید با موفقیت ارسال شد.", { className: "shadow-lg!" });
+      setStep(2);
+    } else if (error) {
+      toast.error("خطا در ارسال کد تایید. لطفا دوباره تلاش کنید.");
+      console.error(error);
+      return;
+    }
   };
 
   // todo change form structure (React.js 19.2)

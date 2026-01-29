@@ -1,12 +1,24 @@
-const sendOtp = async (mobile) => {
+const sendOtp = async (mobile: string) => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL + "/auth/send-otp", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}auth/send-otp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ mobile }),
     });
-    return await response.json();
-  } catch (error) {}
+    const data = await response.json();
+    return {
+      response: response.ok ? data : null,
+      error: response.ok ? null : data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      response: null,
+      error,
+    };
+  }
 };
+
+export { sendOtp };
