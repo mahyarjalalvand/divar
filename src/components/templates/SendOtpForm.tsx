@@ -1,35 +1,39 @@
 import { sendOtp } from "@/services/auth";
-import React from "react";
+import React, { useActionState } from "react";
 import { toast } from "sonner";
 interface SendOtpType {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  setMobile: React.Dispatch<React.SetStateAction<string>>;
-  mobile: string;
 }
+type OtpState = null | { ok: true } | { ok: false; error: string | null };
 
-function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
-  // console.log(setStep)
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (mobile.length !== 11) return;
-    const { response, error } = await sendOtp(mobile);
+function SendOtpForm({ setStep }: SendOtpType) {
+  const [, submitAction] = useActionState(submitHandler, null);
+
+  async function submitHandler(_prvState: OtpState, formData: FormData): Promise<OtpState> {
+    const phoneNumber = formData.get("phoneNumber");
+    if (typeof phoneNumber !== "string") return { ok: false, error: "شماره موبایل نامعتبر است" };
+
+    const promise = sendOtp(phoneNumber);
+
+    toast.promise(promise, {
+      loading: "در حال ارسال کد تایید ...",
+      success: "کد تایید با موفقیت ارسال شد",
+      error: "خطا در ارسال کد تایید",
+    });
+    const { response, error } = await promise;
     if (response) {
-      toast.success("کد تایید با موفقیت ارسال شد.", { className: "shadow-lg!" });
       setStep(2);
-    } else if (error) {
-      toast.error("خطا در ارسال کد تایید. لطفا دوباره تلاش کنید.");
-      console.error(error);
-      return;
+      return { ok: true };
     }
-  };
+    return { ok: false, error };
+  }
 
-  // todo change form structure (React.js 19.2)
   return (
-    <form onSubmit={submitHandler}>
+    <form action={submitAction}>
       <p>ورود به حساب کاربری</p>
       <span>برای استفاده از امکانات دیوار لطفا شماره خود را وارد کنید . کد تایید به این شماره پیامک خواهد شد</span>
       <label htmlFor="input">شماره موبایل خود را وارد کنید</label>
-      <input type="text" id="input" placeholder="شماره موبایل" value={mobile} onChange={(e) => setMobile(e.target.value)} />
+      <input type="text" name="phoneNumber" id="input" placeholder="شماره موبایل" />
       <button type="submit">ارسال کد تایید</button>
     </form>
   );
