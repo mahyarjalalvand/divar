@@ -26,7 +26,7 @@ function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
     }
   };
   return (
-    <form action={submitAction}>
+    <form onSubmit={submitHandler}>
       <p>تایید کد ارسال شده</p>
       <span>کد پیامک شده به شماره {mobile} را وارد کنید</span>
       <label htmlFor="input">کد تایید را وارد کنید</label>
