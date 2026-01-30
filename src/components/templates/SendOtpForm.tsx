@@ -7,22 +7,12 @@ interface SendOtpType {
 }
 type OtpState = null | { ok: true } | { ok: false; error: string | null };
 
-function SendOtpForm({ setStep, setMobile }: SendOtpType) {
-  const [, submitAction] = useActionState(submitHandler, null);
+function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
+  const submitHandler = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (mobile.length < 10) return;
+    const { response, error } = await sendOtp(mobile);
 
-  async function submitHandler(_prvState: OtpState, formData: FormData): Promise<OtpState> {
-    const phoneNumber = formData.get("phoneNumber");
-
-    if (typeof phoneNumber !== "string") return { ok: false, error: "شماره موبایل نامعتبر است" };
-
-    const promise = sendOtp(phoneNumber);
-
-    toast.promise(promise, {
-      loading: "در حال ارسال کد تایید ...",
-      success: "کد تایید با موفقیت ارسال شد",
-      error: "خطا در ارسال کد تایید",
-    });
-    const { response, error } = await promise;
     if (response) {
       setMobile(phoneNumber);
       setStep(2);
@@ -30,7 +20,7 @@ function SendOtpForm({ setStep, setMobile }: SendOtpType) {
     }
     toast.error(typeof error === "string" ? error : error?.message);
     return { ok: false, error };
-  }
+  };
 
   return (
     <form action={submitAction}>

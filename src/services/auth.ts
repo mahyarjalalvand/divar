@@ -34,11 +34,11 @@ const checkOtp = async (mobile: string, code: string) => {
       response: response.ok ? data : null,
       error: response.ok ? null : data,
     };
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
     return {
       response: null,
-      error,
+      err,
     };
   }
 };
