@@ -1,4 +1,7 @@
+import { checkOtp } from "@/services/auth";
+import setCookie from "@/utils/cookie";
 import React from "react";
+import { toast } from "sonner";
 interface CheckOtp {
   code: string;
   setCode: React.Dispatch<React.SetStateAction<string>>;
@@ -7,10 +10,20 @@ interface CheckOtp {
 }
 
 function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
-  // todo change form structure (React.js 19.2)
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(code, mobile);
+    if (code.length < 5) return;
+    const { response, error } = await checkOtp(mobile, code);
+    if (response) {
+      toast.success("تایید");
+      // console.log(response);
+      setCookie(response);
+      // setStep(2);
+    } else if (error) {
+      toast.error("خطا در تایید کد");
+      console.error(error);
+      return;
+    }
   };
   return (
     <form onSubmit={submitHandler}>

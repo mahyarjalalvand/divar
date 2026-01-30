@@ -8,11 +8,11 @@ interface SendOtpType {
 }
 
 function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
-  // console.log(setStep)
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (mobile.length !== 11) return;
+    if (mobile.length < 10) return;
     const { response, error } = await sendOtp(mobile);
+
     if (response) {
       toast.success("کد تایید با موفقیت ارسال شد.", { className: "shadow-lg!" });
       setStep(2);
@@ -23,7 +23,6 @@ function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
     }
   };
 
-  // todo change form structure (React.js 19.2)
   return (
     <form onSubmit={submitHandler}>
       <p>ورود به حساب کاربری</p>
