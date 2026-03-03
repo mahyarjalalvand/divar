@@ -1,5 +1,17 @@
-const setCookie = (tokens) => {
-  document.cookie = `accessToken=${tokens.accessToken}; max-age=${1 * 24 * 60 * 60}`;
-  document.cookie = `refreshToken=${tokens.accessToken}; max-age=${30 * 24 * 60 * 60}`;
+type Tokens = {
+  accessToken: string;
+  refreshToken: string;
 };
-export default setCookie;
+
+const setCookie = (tokens: Tokens): void => {
+  document.cookie = `accessToken=${tokens.accessToken}; max-age=${1 * 24 * 60 * 60}`;
+  document.cookie = `refreshToken=${tokens.refreshToken}; max-age=${30 * 24 * 60 * 60}`;
+};
+const getCookie = (name: string) => {
+  return document.cookie
+    .split(";")
+    .find((token) => token.trim().split("=")[0] === name)
+    ?.split("=")[1];
+};
+
+export { setCookie, getCookie };
