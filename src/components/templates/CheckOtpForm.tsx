@@ -1,5 +1,5 @@
 import { checkOtp } from "@/services/auth";
-import setCookie from "@/utils/cookie";
+import { setCookie } from "@/utils/cookie";
 import React from "react";
 import { toast } from "sonner";
 interface CheckOtp {
@@ -16,9 +16,7 @@ function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
     const { response, error } = await checkOtp(mobile, code);
     if (response) {
       toast.success("تایید");
-      // console.log(response);
       setCookie(response);
-      // setStep(2);
     } else if (error) {
       toast.error("خطا در تایید کد");
       console.error(error);
