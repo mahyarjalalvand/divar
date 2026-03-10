@@ -25,7 +25,7 @@ function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="authForms">
       <p>ورود به حساب کاربری</p>
       <span>برای استفاده از امکانات دیوار لطفا شماره خود را وارد کنید . کد تایید به این شماره پیامک خواهد شد</span>
       <label htmlFor="input">شماره موبایل خود را وارد کنید</label>

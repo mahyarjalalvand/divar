@@ -11,6 +11,7 @@ interface CheckOtp {
   mobile: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
+// todo for login by admin role : 09189990099
 // todo / play again 356 in 1 . becuse chekc router for return undefinde
 
 function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
@@ -33,13 +34,15 @@ function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
     }
   };
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="authForms">
       <p>تایید کد ارسال شده</p>
       <span>کد پیامک شده به شماره {mobile} را وارد کنید</span>
       <label htmlFor="input">کد تایید را وارد کنید</label>
       <input type="text" name="otpCode" id="input" placeholder="کد تایید" onChange={(e) => setCode(e.target.value)} />
       <button type="submit">ورود</button>
-      <button onClick={() => setStep(1)}>تغییر شماره موبایل</button>
+      <button onClick={() => setStep(1)} className="backBtn">
+        تغییر شماره موبایل
+      </button>
     </form>
   );
 }

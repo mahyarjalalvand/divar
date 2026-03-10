@@ -7,11 +7,6 @@
   --font-display: "Vazir", sans-serif;
 }
 
-@layer base {
-  body {
-    @apply font-display;
-  }
-}
 @utility center {
   @apply flex items-center justify-center;
 }
@@ -130,7 +125,26 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply font-display;
+  }
+  .authForms {
+    @apply max-w-125 flex flex-col m-auto rounded-sm mt-25 border border-gray-300 p-7.5;
+    p {
+      @apply text-lg font-normal mb-5;
+    }
+    span {
+      @apply text-gray-400 mb-5 text-xs;
+    }
+    input {
+      @apply my-5 py-1.5 ps-2 border border-gray-400 rounded-sm;
+    }
+    button {
+      @apply w-fit py-1 px-2.5 bg-red-800 text-white cursor-pointer rounded-sm;
+    }
+    button.backBtn {
+      @apply bg-white text-red-800 border border-red-800 w-fit mt-7.5;
+    }
   }
 }
