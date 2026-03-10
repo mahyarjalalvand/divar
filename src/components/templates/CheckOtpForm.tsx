@@ -1,6 +1,9 @@
 import { checkOtp } from "@/services/auth";
+import { getProfile } from "@/services/user";
 import { setCookie } from "@/utils/cookie";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 interface CheckOtp {
   code: string;
@@ -8,8 +11,12 @@ interface CheckOtp {
   mobile: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
+// todo / play again 356 in 1 . becuse chekc router for return undefinde
 
 function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
+  const navigate = useNavigate();
+  const { refetch } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+
   const submitHandler = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (code.length < 5) return;
@@ -17,6 +24,8 @@ function CheckOtpForm({ code, setCode, mobile, setStep }: CheckOtp) {
     if (response) {
       toast.success("تایید");
       setCookie(response);
+      navigate("/");
+      refetch();
     } else if (error) {
       toast.error("خطا در تایید کد");
       console.error(error);
