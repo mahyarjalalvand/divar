@@ -4,13 +4,16 @@ import Router from "./router/Router";
 import { Toaster } from "sonner";
 import defaultOptions from "./config/reactQuery";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Layout from "./layouts/Layout";
 function App() {
   const queryClient = new QueryClient({ defaultOptions });
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Router />
+          <Layout>
+            <Router />
+          </Layout>
         </BrowserRouter>
         <Toaster />
         <ReactQueryDevtools />
