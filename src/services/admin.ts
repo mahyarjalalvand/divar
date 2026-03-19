@@ -31,4 +31,4 @@ const getCategory = async () => {
     return error;
   }
 };
-export default addCategory;
+export { addCategory, getCategory };
