@@ -1,6 +1,6 @@
-import addCategory from "@/services/admin";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { addCategory } from "@/services/admin";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
 export interface FormStateType {
   name: string;
   slug: string;
@@ -8,17 +8,20 @@ export interface FormStateType {
 }
 function CategoryFrom() {
   // todo add type for fc event
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<FormStateType>({ name: "", slug: "", icon: "" });
 
-  const { mutate, isLoading, error, data } = useMutation(addCategory);
+  const { mutate, error, data } = useMutation(addCategory, {
+    onSuccess: () => queryClient.invalidateQueries("get-categories"),
+  });
 
-  console.log({ error });
+  // console.log({ error });
 
-  const changeHandler = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
+  const changeHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
+    setForm({ ...form, [event.target?.name]: event.target.value });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     // if (!form.name || !form.slug || !form.icon) return;
     // console.log(form);
