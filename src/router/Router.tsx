@@ -9,15 +9,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function Router() {
-  const { data, isLoading, error } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-  console.log(data, error, isLoading);
+  const { data, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+  // console.log(data, error, isLoading);
   if (isLoading) return <Spinner className="size-8" />;
   return (
     <Routes>
       <Route index element={<HomePage />} />
       <Route path="/dashboard" element={data ? <DashboardPage /> : <Navigate to="/auth" />} />
       <Route path="/auth" element={data ? <Navigate to="/dashboard" /> : <AuthPage />} />
-      <Route path="/admin" element={data && data.data.role === "ADMIN" ? <AdminPage /> : <Navigate to="/" />} />
+      <Route path="/admin" element={<AdminPage />} />
+      {/* <Route path="/admin" element={data && data.data.role === "ADMIN" ? <AdminPage /> : <Navigate to="/" />} /> */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
