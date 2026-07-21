@@ -13,7 +13,7 @@ function HomePage() {
       {postLoading || categoriesLoading ? (
         <Spinner className="size-10" />
       ) : (
-        <div className="flex">
+        <div className="flex container">
           <Main posts={posts} />
           <Sidebar categories={categories} />
         </div>
