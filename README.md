@@ -1,108 +1,108 @@
-# Front-end دیوار
+# Divar Front End
 
-رابط کاربری پروژه‌ی دیوار با React و TypeScript پیاده‌سازی شده است. این برنامه آگهی‌ها و دسته‌بندی‌ها را از API دریافت می‌کند، ورود با شماره موبایل و کد یک‌بارمصرف (OTP) را در اختیار کاربر می‌گذارد و صفحه‌ای برای مدیریت دسته‌بندی‌ها دارد.
+The user interface for the Divar project is built with React and TypeScript. The application retrieves listings and categories from an API, supports sign-in with a mobile number and a one-time password (OTP), and provides a page for managing categories.
 
-> این پروژه در حال توسعه است و بعضی صفحه‌ها و قابلیت‌ها هنوز کامل نشده‌اند.
+> This project is under development, and some pages and features are not yet complete.
 
-## امکانات فعلی
+## Current Features
 
-- نمایش فهرست آگهی‌ها و دسته‌بندی‌ها در صفحه‌ی اصلی
-- ورود دومرحله‌ای با شماره موبایل و کد OTP
-- نگه‌داری Access Token و Refresh Token و تمدید خودکار نشست کاربر
-- محافظت از مسیر داشبورد برای کاربران واردشده
-- نمایش و ایجاد دسته‌بندی‌ها در پنل مدیریت
-- مدیریت وضعیت درخواست‌های سرور با TanStack Query
-- رابط فارسی، فونت وزیرمتن و اعلان‌های Toast
-- صفحه‌ی 404 برای مسیرهای ناشناخته
+- Display listings and categories on the home page
+- Two-step sign-in using a mobile number and OTP
+- Store access and refresh tokens and automatically renew user sessions
+- Protect the dashboard route for authenticated users
+- View and create categories in the admin panel
+- Manage server request state with TanStack Query
+- Persian interface, Vazirmatn font, and toast notifications
+- A 404 page for unknown routes
 
-## تکنولوژی‌ها
+## Technologies
 
-- React 19 و TypeScript
-- Vite 7 (نسخه‌ی مبتنی بر Rolldown)
+- React 19 and TypeScript
+- Vite 7 (Rolldown-based version)
 - React Router 7
 - TanStack React Query 5
 - Tailwind CSS 4
-- Sonner و Lucide React
+- Sonner and Lucide React
 - ESLint
 
-## پیش‌نیازها
+## Prerequisites
 
-- Node.js نسخه‌ی `20.19.0` به بالا یا `22.12.0` به بالا
+- Node.js `20.19.0` or later, or `22.12.0` or later
 - npm
-- اجرای API پروژه (به‌صورت پیش‌فرض روی `http://localhost:3400/`)
+- The project's API running at `http://localhost:3400/` by default
 
-## راه‌اندازی
+## Setup
 
-ابتدا وارد پوشه‌ی Front-end شوید و وابستگی‌ها را نصب کنید:
+First, navigate to the front-end directory and install the dependencies:
 
 ```bash
 cd front-end
 npm ci
 ```
 
-سپس فایل `.env` را در ریشه‌ی همین پوشه بسازید:
+Then, create a `.env` file in the root of this directory:
 
 ```env
 VITE_BASE_URL=http://localhost:3400/
 ```
 
-آدرس API باید در انتها `/` داشته باشد. در پایان، سرور توسعه را اجرا کنید:
+The API URL must end with a trailing `/`. Finally, start the development server:
 
 ```bash
 npm run dev
 ```
 
-آدرس برنامه در خروجی Vite نمایش داده می‌شود و معمولاً `http://localhost:5173/` است.
+Vite displays the application URL in its output; it is usually `http://localhost:5173/`.
 
-## اسکریپت‌ها
+## Scripts
 
-| دستور             | توضیح                                                      |
-| ----------------- | ---------------------------------------------------------- |
-| `npm run dev`     | اجرای سرور توسعه با Hot Reload                             |
-| `npm run build`   | بررسی TypeScript و ساخت نسخه‌ی Production در پوشه‌ی `dist` |
-| `npm run preview` | اجرای محلی خروجی Production                                |
-| `npm run lint`    | بررسی کد با ESLint                                         |
+| Command           | Description                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `npm run dev`     | Start the development server with hot reload                   |
+| `npm run build`   | Type-check the project and create a production build in `dist` |
+| `npm run preview` | Preview the production build locally                           |
+| `npm run lint`    | Check the code with ESLint                                     |
 
-## مسیرهای برنامه
+## Application Routes
 
-| مسیر         | توضیح                         | دسترسی                          |
-| ------------ | ----------------------------- | ------------------------------- |
-| `/`          | نمایش آگهی‌ها و دسته‌بندی‌ها  | عمومی                           |
-| `/auth`      | ورود با شماره موبایل و کد OTP | کاربران مهمان                   |
-| `/dashboard` | داشبورد و ثبت آگهی            | کاربران واردشده                 |
-| `/admin`     | مشاهده و ایجاد دسته‌بندی‌ها   | در نسخه‌ی فعلی بدون محدودیت نقش |
-| `*`          | صفحه‌ی 404                    | عمومی                           |
+| Route        | Description                          | Access                                     |
+| ------------ | ------------------------------------ | ------------------------------------------ |
+| `/`          | Display listings and categories      | Public                                     |
+| `/auth`      | Sign in with a mobile number and OTP | Guest users                                |
+| `/dashboard` | Dashboard and listing submission     | Authenticated users                        |
+| `/admin`     | View and create categories           | No role restriction in the current version |
+| `*`          | 404 page                             | Public                                     |
 
-## ساختار پوشه‌ها
+## Directory Structure
 
 ```text
 src/
-├── assets/       # فونت‌ها و فایل‌های ثابت
-├── components/   # کامپوننت‌های قالب و اجزای رابط کاربری
-├── config/       # تنظیمات کتابخانه‌ها مانند React Query
-├── constants/    # ثابت‌های برنامه
-├── layouts/      # چیدمان عمومی، Header و Footer
-├── lib/          # توابع کمکی مشترک
-├── pages/        # صفحه‌های اصلی برنامه
-├── router/       # تعریف مسیرها و کنترل دسترسی
-├── services/     # ارتباط با API احراز هویت، کاربر و مدیریت
-├── styles/       # استایل‌های عمومی، Tailwind و فونت‌ها
-├── utils/        # ابزارهای عمومی مانند مدیریت Cookie
-├── App.tsx       # Providerها و ساختار اصلی برنامه
-└── main.tsx      # نقطه‌ی ورود React
+├── assets/       # Fonts and static files
+├── components/   # Template components and UI elements
+├── config/       # Library configuration, such as React Query
+├── constants/    # Application constants
+├── layouts/      # Shared layouts, Header, and Footer
+├── lib/          # Shared helper functions
+├── pages/        # Main application pages
+├── router/       # Route definitions and access control
+├── services/     # Authentication, user, and admin API integrations
+├── styles/       # Global styles, Tailwind, and fonts
+├── utils/        # General utilities, such as cookie management
+├── App.tsx       # Providers and the main application structure
+└── main.tsx      # React entry point
 ```
 
-برای Import از داخل `src` می‌توان از Alias زیر استفاده کرد:
+Use the following alias when importing modules from `src`:
 
 ```ts
 import HomePage from "@/pages/HomePage";
 ```
 
-## ارتباط با API و احراز هویت
+## API Integration and Authentication
 
-تمام درخواست‌ها از آدرس تعریف‌شده در `VITE_BASE_URL` استفاده می‌کنند. پس از تأیید OTP، توکن‌های دسترسی و تمدید در Cookie مرورگر ذخیره می‌شوند. درخواست‌های احرازشده توکن دسترسی را در Header با قالب `Bearer` ارسال می‌کنند و در صورت دریافت پاسخ `401`، یک‌بار برای تمدید توکن تلاش می‌شود.
+All requests use the URL defined in `VITE_BASE_URL`. After OTP verification, the access and refresh tokens are stored in browser cookies. Authenticated requests send the access token in the `Authorization` header using the `Bearer` scheme. If a request receives a `401` response, the application makes one attempt to refresh the token.
 
-مسیرهای اصلی API مورد استفاده در Front-end عبارت‌اند از:
+The main API endpoints used by the front end are:
 
 - `POST /auth/send-otp`
 - `POST /auth/check-otp`
@@ -111,11 +111,11 @@ import HomePage from "@/pages/HomePage";
 - `GET /category`
 - `POST /category`
 
-## ساخت نسخه‌ی Production
+## Production Build
 
 ```bash
 npm run build
 npm run preview
 ```
 
-خروجی نهایی در پوشه‌ی `dist` ساخته می‌شود. هنگام استقرار، مقدار `VITE_BASE_URL` را پیش از Build برابر آدرس API محیط مقصد قرار دهید.
+The final output is generated in the `dist` directory. Before building for deployment, set `VITE_BASE_URL` to the API URL of the target environment.
