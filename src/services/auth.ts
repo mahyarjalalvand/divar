@@ -47,18 +47,23 @@ const checkOtp = async (mobile: string, code: string) => {
 };
 const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   let accessToken = getCookie("accessToken");
-  const res = await fetch(BASE_URL + url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+
+  const sendRequest = (token?: string) =>
+    fetch(BASE_URL + url, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+
+  let res = await sendRequest(accessToken);
 
   if (res.status === 401) {
     const refreshToken = getCookie("refreshToken");
-    console.log(refreshToken);
-    if (!refreshToken) throw new Error("Refresh token missing");
+
+    if (!refreshToken) return res;
 
     const refreshRes = await fetch(`${BASE_URL}auth/check-refresh-token`, {
       method: "POST",
@@ -68,20 +73,13 @@ const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
       body: JSON.stringify({ refreshToken }),
     });
 
-    if (!refreshRes.ok) throw new Error("Refresh token expired");
+    if (!refreshRes.ok) return refreshRes;
 
     const tokens = await refreshRes.json();
     setCookie(tokens);
 
     accessToken = tokens.accessToken;
-    return fetch(BASE_URL + url, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        ...(options.headers || {}),
-      },
-    });
+    res = await sendRequest(accessToken);
   }
 
   return res;
