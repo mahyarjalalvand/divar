@@ -11,11 +11,13 @@ function CategoryFrom() {
   const queryClient = useQueryClient();
   const [form, setForm] = useState<FormStateType>({ name: "", slug: "", icon: "" });
 
-  const { mutate, error, data } = useMutation(addCategory, {
-    onSuccess: () => queryClient.invalidateQueries("get-categories"),
+  const { mutate, error, data } = useMutation({
+    mutationFn: addCategory,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["get-categories"],
+      }),
   });
-
-  // console.log({ error });
 
   const changeHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     setForm({ ...form, [event.target?.name]: event.target.value });
@@ -23,8 +25,7 @@ function CategoryFrom() {
 
   const submitHandler = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (!form.name || !form.slug || !form.icon) return;
-    // console.log(form);
+    if (!form.name || !form.slug || !form.icon) return;
     mutate(form);
   };
 
