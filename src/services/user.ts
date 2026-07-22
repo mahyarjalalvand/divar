@@ -1,8 +1,13 @@
+import { getCookie } from "@/utils/cookie";
 import { fetchWithAuth } from "./auth";
 
 // import { toast, Toaster } from "sonner";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const getProfile = async () => {
+  const hasToken = getCookie("accessToken") || getCookie("refreshToken");
+
+  if (!hasToken) return null;
+
   const res = await fetchWithAuth("user/whoami");
   const data = await res.json();
   return data;
