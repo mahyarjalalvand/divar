@@ -1,5 +1,4 @@
 import { sendOtp } from "@/services/auth";
-// import React, { useActionState } from "react";
 import { toast } from "sonner";
 interface SendOtpType {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -11,7 +10,6 @@ function SendOtpForm({ setStep, mobile, setMobile }: SendOtpType) {
   const submitHandler = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (mobile.length < 10) return;
-    console.log("send");
     const { response, error } = await sendOtp(mobile);
 
     if (response) {
