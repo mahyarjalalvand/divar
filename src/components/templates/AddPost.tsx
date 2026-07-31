@@ -3,7 +3,7 @@ import { createPost } from "@/services/post";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type React from "react";
 import { toast } from "sonner";
-
+// todo. use react hook form and valibot
 function AddPost() {
   const { data } = useQuery({ queryKey: ["get-categories"], queryFn: getCategory });
   const { mutate, isPending } = useMutation({
