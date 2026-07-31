@@ -3,7 +3,7 @@ import CategoryList from "@/components/templates/CategoryList";
 
 function AdminPage() {
   return (
-    <div>
+    <div className="container">
       <CategoryList />
       <CategoryFrom />
     </div>
