@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 function HomePage() {
   const { data: postsRes, isLoading: postLoading } = useQuery({ queryKey: ["post-list"], queryFn: getAllPosts });
   const { data: categories, isLoading: categoriesLoading } = useQuery({ queryKey: ["get-categories"], queryFn: getCategory });
-  // console.log(categories);
+
   return (
     <>
       {postLoading || categoriesLoading ? (
