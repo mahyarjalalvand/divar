@@ -1,4 +1,5 @@
 import type { FormStateType } from "@/components/templates/CategoryFrom";
+import type { CategoryType } from "@/types/category";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const addCategory = async (data: FormStateType) => {
   try {
@@ -16,7 +17,7 @@ const addCategory = async (data: FormStateType) => {
     return error;
   }
 };
-const getCategory = async () => {
+const getCategory = async (): Promise<CategoryType[]> => {
   try {
     const req = await fetch(`${BASE_URL}category`, {
       method: "GET",
@@ -24,11 +25,11 @@ const getCategory = async () => {
         "Content-type": "application/json",
       },
     });
-    const res = await req.json();
+    const res: CategoryType[] = await req.json();
     return res;
   } catch (error) {
     console.log(error);
-    return error;
+    throw error;
   }
 };
 export { addCategory, getCategory };
