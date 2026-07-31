@@ -1,7 +1,7 @@
 import { getCookie } from "@/utils/cookie";
 import { fetchWithAuth } from "./auth";
+import type { PostsResponse } from "@/types/post";
 
-// import { toast, Toaster } from "sonner";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const getProfile = async () => {
   const hasToken = getCookie("accessToken") || getCookie("refreshToken");
@@ -13,7 +13,7 @@ const getProfile = async () => {
   return data;
 };
 
-const getAllPosts = async () => {
+const getAllPosts = async (): Promise<PostsResponse> => {
   try {
     const req = await fetch(BASE_URL, {
       method: "GET",
@@ -21,11 +21,14 @@ const getAllPosts = async () => {
         "Content-Type": "application/json",
       },
     });
-    const res = await req.json();
+    if (!req.ok) {
+      throw new Error("Failed to fetch posts");
+    }
+    const res: PostsResponse = await req.json();
     return res;
   } catch (error) {
     console.log(error);
-    return error;
+    throw error;
   }
 };
 
