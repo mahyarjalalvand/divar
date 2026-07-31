@@ -14,7 +14,7 @@ function CategoryList() {
       {isLoading ? (
         <Spinner className="size-10" />
       ) : (
-        data.data?.map((item: CategoryDataType) => (
+        data?.map((item: CategoryDataType) => (
           <div key={item._id}>
             <img src={`${item.icon}.svg`} alt="" />
             <h5 className="ms-2.5 text-sm w-30">{item.name}</h5>
