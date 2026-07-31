@@ -1,7 +1,11 @@
-import React from "react";
+import AddPost from "@/components/templates/AddPost";
 
 function DashboardPage() {
-  return <div>dashboard</div>;
+  return (
+    <div className="container">
+      <AddPost />
+    </div>
+  );
 }
 
 export default DashboardPage;
