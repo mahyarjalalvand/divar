@@ -16,7 +16,7 @@ function HomePage() {
           <Spinner className="size-10" />
         </div>
       ) : (
-        <div className="flex container">
+        <div className="flex flex-col sm:flex-row container">
           <Sidebar categories={categories ?? []} />
           <Main posts={postsRes?.posts ?? []} />
         </div>
