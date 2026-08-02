@@ -11,7 +11,11 @@ export interface Post {
   address: string;
   cordinate: [number, number];
   images: string[];
-  options: Record<string, string>;
+  options: {
+    title?: string;
+    content?: string;
+    city?: string;
+  };
   createdAt: string;
   updatedAt: string;
   __v: number;
