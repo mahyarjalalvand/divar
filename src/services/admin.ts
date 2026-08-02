@@ -2,6 +2,7 @@ import type { FormStateType } from "@/components/templates/CategoryFrom";
 import type { CategoryType, ErrorResponse } from "@/types/category";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const GET_CATEGORIES_ERROR = "دریافت دسته بندی ها ناموفق بوده است!";
 const addCategory = async (data: FormStateType) => {
   try {
     const createReq = await fetch(`${BASE_URL}category`, {
@@ -19,16 +20,25 @@ const addCategory = async (data: FormStateType) => {
   }
 };
 const getCategory = async (): Promise<CategoryType[]> => {
-  const req = await fetch(`${BASE_URL}category`, {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-  const res: CategoryType[] | ErrorResponse = await req.json();
-  if (!req.ok) {
-    throw new Error((res as ErrorResponse).message ?? "دریافت دسته بندی ها ناموفق بوده است!");
+  let req: Response;
+
+  try {
+    req = await fetch(`${BASE_URL}category`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+  } catch {
+    throw new Error(GET_CATEGORIES_ERROR);
   }
+
+  const res: CategoryType[] | ErrorResponse | null = await req.json().catch(() => null);
+  if (!req.ok) {
+    throw new Error((res as ErrorResponse | null)?.message ?? GET_CATEGORIES_ERROR);
+  }
+  if (!Array.isArray(res)) throw new Error(GET_CATEGORIES_ERROR);
+
   return res as CategoryType[];
 };
 

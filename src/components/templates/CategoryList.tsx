@@ -4,7 +4,7 @@ import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
 
 function CategoryList() {
-  const { data, isLoading } = useQuery({ queryKey: ["get-categories"], queryFn: getCategory });
+  const { data, isLoading, isError, error } = useQuery({ queryKey: ["get-categories"], queryFn: getCategory });
   const queryClient = useQueryClient();
   const {
     mutate: deleteCategory,
@@ -24,7 +24,11 @@ function CategoryList() {
   });
   return (
     <div className="mt-12.5 mb-17.5 [&_div]:flex [&_div]:gap-3 [&_div]:items-center [&_div]:my-5 [&_div]:p-4 [&_div]:border-2 [&_div]:bg-gray-200 [&_div]:rounded-sm">
-      {isLoading ? (
+      {isError ? (
+        <p role="alert" className="text-red-800">
+          {error instanceof Error ? error.message : "دریافت دسته بندی ها ناموفق بوده است!"}
+        </p>
+      ) : isLoading ? (
         <Spinner className="size-10" />
       ) : (
         data?.map((item) => (
