@@ -10,7 +10,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 function Router() {
   const { data, isLoading } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-  if (isLoading) return <Spinner className="size-8" />;
+  if (isLoading)
+    return (
+      <div className="w-full h-[50svh] center">
+        <Spinner className="size-8" />
+      </div>
+    );
   return (
     <Routes>
       <Route index element={<HomePage />} />
