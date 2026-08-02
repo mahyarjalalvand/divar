@@ -31,5 +31,20 @@ const getAllPosts = async (): Promise<PostsResponse> => {
     throw error;
   }
 };
+const getUserPosts = async (): Promise<PostsResponse> => {
+  const token = getCookie("accessToken");
+  const req = await fetch(`${BASE_URL}post/my`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await req.json();
+  console.log(data);
+  if (!req.ok) {
+    throw new Error(data.message ?? "خطایی پیش آمد!");
+  }
 
-export { getProfile, getAllPosts };
+  return data;
+};
+
+export { getProfile, getAllPosts, getUserPosts };
