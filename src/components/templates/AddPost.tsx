@@ -27,7 +27,7 @@ function AddPost() {
     <form
       onSubmit={addHandler}
       className="flex flex-col gap-3 pt-5 [&>input]:rounded-sm [&>input]:py-2 [&>input]:ps-2 [&>input]:text-sm [&>input]:w-75 [&>input]:border [&>input]:border-gray-300 [&>input]:block [&>label]:block [&>label]:text-sm [&>label]:mb-2.5">
-      <h3 className="mb-7 pb-3 border-b-2 border-red-800 w-fit">افزودن آگهی</h3>
+      <h3 className="mb-7 pb-3 border-b-2 border-red-800 w-fit font-semibold">افزودن آگهی</h3>
       <label htmlFor="title">عنوان</label>
       <input type="text" name="title" id="title" />
       <label htmlFor="content">توضیحات</label>
