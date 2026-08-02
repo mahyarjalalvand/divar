@@ -1,12 +1,12 @@
 export interface Post {
   _id: string;
-  title: string;
+  title?: string;
   amount: number;
   userId: string;
-  content: string;
+  content?: string;
   category: string;
   province: string;
-  city: string;
+  city?: string;
   distrct: string;
   address: string;
   cordinate: [number, number];
