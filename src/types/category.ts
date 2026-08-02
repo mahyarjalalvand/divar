@@ -6,6 +6,7 @@ export interface CategoryType {
   slug: string;
   name: string;
 }
+export type ErrorResponse = { message: string };
 export interface CategoryResponse {
   categories: CategoryType[];
 }
