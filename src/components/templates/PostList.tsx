@@ -1,12 +1,25 @@
-import { getUserPosts } from "@/services/user";
-import { useQuery } from "@tanstack/react-query";
+import { deleteUserPost, getUserPosts } from "@/services/user";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Spinner } from "../ui/spinner";
 import { sp } from "@/utils/numbers";
 import { truncateWords } from "@/utils/truncateWords";
+import { toast } from "sonner";
 
 function PostList() {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({ queryKey: ["my-post-list"], queryFn: getUserPosts });
-
+  const { mutate, isPending, variables } = useMutation({
+    mutationFn: deleteUserPost,
+    onSuccess: () => {
+      toast.success("حذف با موفقیت انجام شد");
+      queryClient.invalidateQueries({
+        queryKey: ["my-post-list"],
+      });
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "حذف با خطا مواجه شد!");
+    },
+  });
   return isLoading ? (
     <div className="w-full h-[50svh] center">
       <Spinner />
@@ -23,9 +36,14 @@ function PostList() {
               <span>{truncateWords(post.options.content, 8)}</span>
             </div>
           </div>
-          <div className="center flex-col gap-3">
-            <span>{new Date(post.createdAt).toLocaleDateString("fa-IR")}</span>
-            <span>{sp(post.amount)} تومان</span>
+          <div className="center flex gap-3">
+            <div className="center gap-3 flex-col">
+              <span>{new Date(post.createdAt).toLocaleDateString("fa-IR")}</span>
+              <span>{sp(post.amount)} تومان</span>
+            </div>
+            <button className="bg-red-800 text-white px-2 py-1 text-sm rounded-sm cursor-pointer" onClick={() => mutate(post._id)}>
+              {isPending && variables === post._id ? "در حال حذف" : "حذف"}
+            </button>
           </div>
         </div>
       ))}
