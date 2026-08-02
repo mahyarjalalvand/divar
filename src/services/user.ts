@@ -39,12 +39,25 @@ const getUserPosts = async (): Promise<PostsResponse> => {
     },
   });
   const data = await req.json();
-  console.log(data);
   if (!req.ok) {
     throw new Error(data.message ?? "خطایی پیش آمد!");
   }
 
   return data;
 };
+const deleteUserPost = async (postId: string) => {
+  const token = getCookie("accessToken");
+  const req = await fetch(`${BASE_URL}post/delete/${postId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await req.json();
+  if (!req.ok) {
+    throw new Error("خطا در حذف آگهی");
+  }
+  return data;
+};
 
-export { getProfile, getAllPosts, getUserPosts };
+export { getProfile, getAllPosts, getUserPosts, deleteUserPost };
