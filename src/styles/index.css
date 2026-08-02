@@ -131,6 +131,9 @@
   body {
     @apply font-display;
   }
+  button:disabled {
+    @apply opacity-50;
+  }
   .authForms {
     @apply max-w-125 flex flex-col m-auto rounded-sm mt-25 border border-gray-300 p-7.5;
     p {
