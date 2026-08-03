@@ -1,12 +1,18 @@
-import type { PostsResponse } from "@/types/post";
+import type { CategoryType } from "@/types/category";
+import type { Post } from "@/types/post";
 import { sp } from "@/utils/numbers";
+interface MainCompoType {
+  posts: Post[];
+  catId: CategoryType["_id"] | null;
+}
 
-function Main({ posts }: PostsResponse) {
+function Main({ posts, catId }: MainCompoType) {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const filtredPost = catId !== null ? posts.filter((post) => post.category === catId) : posts;
 
   return (
     <div className=" flex flex-wrap justify-between mt-5 w-[calc(100%-200px)]">
-      {posts?.map((post) => {
+      {filtredPost?.map((post) => {
         const title = post.title ?? post.options?.title ?? "بدون عنوان";
         const city = post.city ?? post.options?.city ?? "";
         return (
